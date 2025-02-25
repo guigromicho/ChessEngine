@@ -50,4 +50,4 @@ class Pawn(Piece):
                     cell_.piece = self  # Place the pawn in the new cell
 
         if self.pos[1] == 0:
-            print(self.game)
+            pass
