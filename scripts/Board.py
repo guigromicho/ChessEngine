@@ -7,7 +7,6 @@ class Board():
         self.board = []
         self.pieces = []
         self.turn = 0       #0 for white 1 for black
-    
     def create_board(self):
         for i in range(8):
             for j in range(8):

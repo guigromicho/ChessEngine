@@ -6,7 +6,7 @@ from scripts.Board import Board
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((640, 640))
+        self.screen = pygame.display.set_mode((840, 640))
         self.clock = pygame.time.Clock()
         self.running = True
 

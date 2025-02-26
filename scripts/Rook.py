@@ -8,44 +8,51 @@ class Rook(Piece):
         super().__init__(game, pos, image, type)
         self.first_move = True
         self.value = 5
+        self.name = 'Rook'
 
     def move(self):
         from scripts.utils import find_cell
 
-        if self.type == 'white' and self.selected:
-            legal_moves = []
+        # Verifica se o turno pertence à cor da torre
+        if (self.game.Board.turn % 2 == 0 and self.type == 'white') or (self.game.Board.turn % 2 == 1 and self.type == 'black'):
+            if self.selected:
+                legal_moves = []
 
-            #get all legal moves
-            for direction in DIRECTIONS:
-                for i in range(1, 8):
-                    new_x, new_y = self.pos[0] + direction[0] * i, self.pos[1] + direction[1] * i
-                    cell = find_cell((new_x, new_y), self.game.Board.board)
+                # Obtém todos os movimentos legais
+                for direction in DIRECTIONS:
+                    for i in range(1, 8):  # A torre pode se mover até 7 casas em linha reta
+                        new_x, new_y = self.pos[0] + direction[0] * i, self.pos[1] + direction[1] * i
+                        cell = find_cell((new_x, new_y), self.game.Board.board)
 
-                    if cell:
-                        if not cell.piece:
-                            legal_moves.append((new_x, new_y))
-                        elif cell.piece.type == 'black':
-                            legal_moves.append((new_x, new_y))
-                            break
+                        if cell:
+                            if not cell.piece:  # Casa vazia
+                                legal_moves.append((new_x, new_y))
+                            elif cell.piece.type != self.type:  # Peça adversária -> Pode capturar
+                                legal_moves.append((new_x, new_y))
+                                break  # Para de verificar essa direção após capturar
+                            else:
+                                break  # Peça aliada bloqueando o caminho
                         else:
-                            break
-                    else:
-                        break
+                            break  # Fora do tabuleiro
 
-            for move in legal_moves:
-                draw_x, draw_y = move[0] * 80 + 40, move[1] * 80 + 40
-                pygame.draw.circle(self.game.screen, (100, 100, 255), (draw_x, draw_y), 15)
+                # Desenha os movimentos possíveis
+                for move in legal_moves:
+                    draw_x, draw_y = move[0] * 80 + 40, move[1] * 80 + 40
+                    pygame.draw.circle(self.game.screen, (100, 100, 255), (draw_x, draw_y), 15)
 
-                move_rect = pygame.Rect(draw_x - 40, draw_y - 40, 80, 80)
-                if move_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:  
-                    cell_ = find_cell(move, self.game.Board.board)
-                    
-                    # Remove peça capturada
-                    if cell_ and cell_.piece:
-                        self.game.Board.pieces.remove(cell_.piece)
-                    
-                    # Atualiza referência da peça no tabuleiro
-                    self.pos = move 
-                    self.draw_pos = (move[0] * 80, move[1] * 80)
-                    self.first_move = False
-                    cell_.piece = self  
+                    move_rect = pygame.Rect(draw_x - 40, draw_y - 40, 80, 80)
+                    if move_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:  
+                        cell_ = find_cell(move, self.game.Board.board)
+                        
+                        # Remove peça capturada, se houver
+                        if cell_ and cell_.piece:
+                            self.game.Board.pieces.remove(cell_.piece)
+                        
+                        # Atualiza a posição da torre
+                        self.pos = move 
+                        self.draw_pos = (move[0] * 80, move[1] * 80)
+                        self.first_move = False  # Marca que a torre já moveu (importante para roque)
+                        cell_.piece = self
+                        
+                        # Passa o turno para o adversário
+                        self.game.Board.turn += 1

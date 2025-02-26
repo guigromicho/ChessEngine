@@ -13,20 +13,23 @@ class Piece:
         self.clicked = False
 
     def check_input(self):
-        
-        self.rect = pygame.Rect((self.draw_pos),(80,80))
-        if pygame.mouse.get_pressed()[0] == 1 and self.rect.collidepoint(pygame.mouse.get_pos()) and self.clicked == False:
-            for piece in self.game.Board.pieces:
-                if piece != self and piece.type == 'black' and piece.selected == True:
-                    piece.selected = False
-            self.clicked = True
-            if self.selected == False:
-                self.selected = True
-            else:
-                self.selected = False
-        
-        if pygame.mouse.get_pressed()[0] == 0: 
+        """Gerencia a seleção e movimentação das peças com base no clique do jogador."""
+
+        self.rect = pygame.Rect((self.draw_pos), (80, 80))
+
+        if pygame.mouse.get_pressed()[0] == 1 and self.rect.collidepoint(pygame.mouse.get_pos()) and not self.clicked:
+            if (self.game.Board.turn % 2 == 0 and self.type == "white") or (self.game.Board.turn % 2 == 1 and self.type == "black"):
+                
+                for piece in self.game.Board.pieces:
+                    if piece != self and piece.selected:
+                        piece.selected = False
+
+                self.selected = not self.selected
+                self.clicked = True
+
+        if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
+
             
 
     def draw(self):
