@@ -1,8 +1,8 @@
 import pygame
 
 class Piece:
-    def __init__(self, game, pos, image, tipo):
-        self.tipo = tipo
+    def __init__(self, game, pos, image, type):
+        self.type = type
         self.game = game
         self.pos = pos
         self.draw_pos = ((pos[0] * 80), (pos[1] * 80))
@@ -13,8 +13,12 @@ class Piece:
         self.clicked = False
 
     def check_input(self):
+        
         self.rect = pygame.Rect((self.draw_pos),(80,80))
         if pygame.mouse.get_pressed()[0] == 1 and self.rect.collidepoint(pygame.mouse.get_pos()) and self.clicked == False:
+            for piece in self.game.Board.pieces:
+                if piece != self and piece.type == 'black' and piece.selected == True:
+                    piece.selected = False
             self.clicked = True
             if self.selected == False:
                 self.selected = True

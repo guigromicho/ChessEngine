@@ -1,14 +1,13 @@
 import pygame
 from scripts.Peace import Piece
 
-DIRECTIONS = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+DIRECTIONS = [(-1,-1) , (1,1) , (-1,1) , (1,-1),(0, 1), (0, -1), (1, 0), (-1, 0)]
 
-class Rook(Piece):
+class Queen(Piece):
     def __init__(self, game, pos, image, type):
         super().__init__(game, pos, image, type)
-        self.first_move = True
-        self.value = 5
-
+        self.value = 9
+    
     def move(self):
         from scripts.utils import find_cell
 
@@ -48,4 +47,4 @@ class Rook(Piece):
                     self.pos = move 
                     self.draw_pos = (move[0] * 80, move[1] * 80)
                     self.first_move = False
-                    cell_.piece = self  
+                    cell_.piece = self

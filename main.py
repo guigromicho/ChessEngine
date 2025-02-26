@@ -20,7 +20,7 @@ class Game:
 
     def run(self):
         self.Board.create_board()
-        load_Board('8/pppppppp/8/8/8/8/PPPPPPPP/8', self.Board.pieces, self)
+        load_Board('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR', self.Board.pieces, self)
         print(self.Board.turn)
         while self.running:
             self.screen.fill((144, 244, 44))

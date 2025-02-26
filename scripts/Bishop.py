@@ -1,14 +1,13 @@
 import pygame
 from scripts.Peace import Piece
 
-DIRECTIONS = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+DIRECTIONS = [(-1,-1) , (1,1) , (-1,1) , (1,-1)]
 
-class Rook(Piece):
+class Bishop(Piece):
     def __init__(self, game, pos, image, type):
         super().__init__(game, pos, image, type)
-        self.first_move = True
-        self.value = 5
-
+        self.value = 3
+    
     def move(self):
         from scripts.utils import find_cell
 

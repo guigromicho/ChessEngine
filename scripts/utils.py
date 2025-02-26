@@ -1,5 +1,10 @@
 import pygame
 from scripts.Pawn import Pawn
+from scripts.Rook import Rook
+from scripts.Bishop import Bishop
+from scripts.Queen import Queen
+from scripts.King import King
+from scripts.Knight import Knight
 def load_images(filename):
     return pygame.transform.scale(pygame.image.load(filename), (80, 80))
 
@@ -23,12 +28,37 @@ def load_Board(fen_string, pieces, game):
         elif char.isdigit():
             col += int(char)
         elif char in piece_dict:
+            img = load_images(f'images/{piece_dict[char]}')
             if char =='p' or char == 'P':
-                img = load_images(f'images/{piece_dict[char]}')
                 if char.islower():
                     pieces.append(Pawn(game, (col, row), img, 'black'))
                 else:
                     pieces.append(Pawn(game, (col, row), img, 'white'))
+            elif char == 'r' or char == 'R':
+                if char.islower():
+                    pieces.append(Rook(game, (col, row), img, 'black'))
+                else:
+                    pieces.append(Rook(game, (col, row), img, 'white'))
+            elif char == 'b' or char == 'B':
+                if char.islower():
+                    pieces.append(Bishop(game, (col, row), img, 'black'))
+                else:
+                    pieces.append(Bishop(game, (col, row), img, 'white'))
+            elif char == 'q' or char == 'Q':
+                if char.islower():
+                    pieces.append(Queen(game, (col, row), img, 'black'))
+                else:
+                    pieces.append(Queen(game, (col, row), img, 'white'))
+            elif char == 'k' or char == 'K':
+                if char.islower():
+                    pieces.append(King(game, (col, row), img, 'black'))
+                else:
+                    pieces.append(King(game, (col, row), img, 'white'))
+            elif char == 'n' or char == 'N':
+                if char.islower():
+                    pieces.append(Knight(game, (col, row), img, 'black'))
+                else:
+                    pieces.append(Knight(game, (col, row), img, 'white'))
             col += 1
         elif char == ' ':
             break

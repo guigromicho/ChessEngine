@@ -11,7 +11,7 @@ class Board():
     def create_board(self):
         for i in range(8):
             for j in range(8):
-                color = (100, 100, 100) if (i + j) % 2 == 0 else (100, 255, 100)
+                color = (100, 255, 100) if (i + j) % 2 == 0 else (100, 100, 100)
                 self.board.append(Cell(self.game, color, i, j, 80))
             
     def update(self):
